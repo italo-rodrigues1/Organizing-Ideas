@@ -5,11 +5,15 @@ export const Container = styled.li`
     max-width: 1000px;
     height:220px;
     margin: 0 auto;
-    padding: 0 10px;
+    padding-left:10px;
     display: flex;
     background: #262626;
     border-radius: 10px;
     justify-content: space-between;
+    transition: all 0.3s linear;
+    &:hover{
+        box-shadow:-1px 5px #ffffff2b;
+    }
 `;
 
 export const VideoFrame = styled.div`
@@ -61,7 +65,7 @@ export const ButtonContainer = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
 
-   
+  
 `;
 
 export const Button = styled.button`
@@ -69,6 +73,18 @@ export const Button = styled.button`
     background: #262626;
     border:none;
     cursor: pointer;
+
+    &:nth-child(4){
+        width: 100px;
+        border-radius: 0 0 10px 0;
+        background: #fff;
+        height: 25%;
+        font-size: 20px;
+        a{
+            color: #111;
+
+        }
+    }
 
     svg{
         color: ${(props)=>(props.emphasis ? "#E3C005" : "#fff")};

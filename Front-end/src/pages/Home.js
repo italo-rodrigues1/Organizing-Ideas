@@ -1,9 +1,9 @@
-import GlobalStyles from "./styles/GlobalStyles";
-import Layout from "./components/Layout";
+import GlobalStyles from "../styles/GlobalStyles";
+import Layout from "../components/Layout";
 // import { FormModalProvider } from "./context/FormModalContext";
 // import { EditingVideoProvider } from "./context/EditingVideoContext";
 
-function App() {
+function Home() {
   return (
     <>
       <Layout />
@@ -12,4 +12,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

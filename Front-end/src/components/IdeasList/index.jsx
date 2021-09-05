@@ -1,10 +1,36 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import Logo from '../../img/favicon.svg';
 import { Container,IdeasListWrapper,IdeasImg } from "./styles";
 // import IdeasItem from '../IdeasItem/index';
 import Ideas from '../Ideas/index';
+import api from '../../services/api';
 
 export default function IdeasList(){
+
+    const [ideasCard,setIdeasCard] = useState([]);
+
+    // useEffect(() => {
+    //     api.get("ideias").then(({ data }) => {
+    //         setIdeasCard(data.ideias);
+    //     })
+        
+    // }, [])
+    // console.log(ideasCard);
+
+    useEffect(() => {
+    
+    
+        const loadPosts = async () => {
+    
+          const reponse = await api.get("/ideias");
+          
+          setIdeasCard(reponse.data.ideias)
+
+        }
+       
+        loadPosts();
+    }, []);
+
 
     return(
         <Container>
@@ -12,33 +38,29 @@ export default function IdeasList(){
                 <h1>Ideas</h1>
                 <img src={Logo} alt="logo" />
             </IdeasImg>
-            <IdeasListWrapper>
-                <Ideas 
-                    id={1}
-                    title="Criar app para melhorar o deslocamento de pessoas com deficiencia"
-                    link="https://www.youtube.com/watch?v=x3Gn9axZfs0"
-                    goal="ajudar na locomoção de pessoas com deficiencia"
-                    info="app ou site,feature de acessibilidade"
-                    emphasis={false}
-                />
-                <Ideas 
-                    id={1}
-                    title="Criar app para melhorar o deslocamento de pessoas com deficiencia"
-                    link="https://www.youtube.com/watch?v=VYW4lGIZN5Y"
-                    goal="ajudar na locomoção de pessoas com deficiencia"
-                    info="app ou site,feature de acessibilidade"
-                    emphasis={false}
-                />
-                <Ideas 
-                    id={1}
-                    title="Criar app para melhorar o deslocamento de pessoas com deficiencia"
-                    link="https://www.youtube.com/watch?v=VYW4lGIZN5Y"
-                    goal="ajudar na locomoção de pessoas com deficiencia"
-                    info="app ou site,feature de acessibilidade"
-                    emphasis={false}
-                />
-                {/* <IdeasItem /> */}
-            </IdeasListWrapper>
+
+            {ideasCard && (
+                <IdeasListWrapper>
+            
+                        {ideasCard.map((idea) => (
+                            
+                            <Ideas
+                            key = {idea._id} 
+                            id={idea._id}
+                            title={idea.title}
+                            link={idea.link}
+                            goal={idea.goal}
+                            info={idea.info}
+                            emphasis={idea.emphasis}
+                            />
+                        
+                        ))}
+                    
+                    {/* <IdeasItem /> */}
+                </IdeasListWrapper>
+            )}
+                            
         </Container>
     );
 }
+

@@ -1,6 +1,6 @@
 import React from "react";
 import { Container,VideoFrame,TitleContainer,ButtonContainer,Button} from "../Ideas/styles";
-
+import { Link } from "react-router-dom";
 import {FiTrash,FiStar,FiEdit} from "react-icons/fi";
 
 export default function Ideas({id,title,link,goal,info,emphasis}){
@@ -26,6 +26,9 @@ export default function Ideas({id,title,link,goal,info,emphasis}){
                 </Button>
                 <Button >
                     <FiTrash/>
+                </Button>
+                <Button >
+                    <Link to="/description">Ver</Link>
                 </Button>
             </ButtonContainer>
         </Container>
