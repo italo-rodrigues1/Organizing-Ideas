@@ -1,37 +1,49 @@
 const { v4: uuid } = require("uuid");
 const User = require('../models/User');
+const UserGoogle = require('../models/UserGoogle');
 
 
 module.exports = {
   async allUser(req, res) {
     try {
       const user = await User.find();
-      return res.status(200).json({ user });
+      const userGoogle = await UserGoogle.find();
+
+      return res.status(200).json({ user, userGoogle });
+     
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
   },
 
   async createUser(req, res) {
-    const { title, link ,goal ,info } = req.body;
+    const { googleId,name,email } = req.body;
 
-    if (!title || !link || !goal || !info) {
-      return res.status(400).json({ error: "Missing title or link." });
+    if (!googleId || !name || !email) {
+      return res.status(400).json({ error: "Missing googleID,name or email." });
     }
 
-    const ideia = new Ideias({
+  
+    const userGoogle = new UserGoogle({
       _id: uuid(),
-      title,
-      goal,
-      info,
-      link,   
-      emphasis: false,
-    });
+      googleId,
+      name,
+      email,
+    }) 
+    
+    // const user = new User({
+    //   _id: uuid(),
+    //   googleId,
+    //   name,
+    //   email,
+    // }) 
+
 
     try {
-      await ideia.save();
+      await userGoogle.save();
+      // await user.save();
 
-      return res.status(201).json({ message: "Ideia added succesfully!" });
+      return res.status(201).json({ message: "User added succesfully!" });
     } catch (err) {
       res.status(400).json({ error: err.message });
     }

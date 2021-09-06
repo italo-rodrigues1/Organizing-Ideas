@@ -1,29 +1,48 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { Container,Form,FormDiv} from "./styles";
-import axios from 'axios';
+import api  from '../../services/api';
 import GoogleLogin from 'react-google-login';
+import { Link, useHistory} from "react-router-dom";
+import {  Redirect  } from "react-router";
 
 export default function LayoutLogin() {
   const [name,setName] = useState('');
   const [senha,setSenha] = useState('');
-  const [email,setEmail] = useState('');
-  const [token,setToken] = useState('');
+  // const [email,setEmail] = useState('');
+  const [logout,setLogout] = useState(false);
+  const history = useHistory();
 
   function handleSubmit(e) {
     e.preventDefault();
-    axios.post("localhost:3333/login",{name:name,password:senha,email:email})
+    api.post("/login",{name:name,password:senha})
     .then(response =>{
       console.log(response)
     })
     .catch(err => console.log(err) )
   }
+ 
+  const handleLogin =  (googleData) => {
 
-    const handleLogin = async googleData => {
-    const res = await axios.post("localhost:3333/login",{token: googleData.tokenId})
-    const data = await res.json()
-      // store returned user somehow
-    }
+    api.post("/login",{name:googleData.profileObj.name ,email:googleData.profileObj.email,googleId: googleData.googleId})
+    .then(response =>{
+      setLogout(true);
+      history.push("/ideias")
+    }).catch(err => {
+      setLogout(false);
+      history.push("/login")
+      
+      console.log(err)
+    
+    })
 
+    // if(logout === true){
+    //   return;
+    // }
+    // else{
+    //   return <Redirect to="/login" />
+    // }
+  }
+ 
   return (
 
     <Container>
@@ -39,6 +58,7 @@ export default function LayoutLogin() {
                     <input type="password" onChange={(senha)=> setSenha(senha.target.value)} required/>
                     <span>Digite sua senha...</span>
                 </label>
+                <span>Não tenho cadastro.<Link to="/registration">Click aqui!</Link></span>
 
                 <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}

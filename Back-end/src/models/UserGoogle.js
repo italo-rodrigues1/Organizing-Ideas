@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const userGoogleSchema = new mongoose.Schema({
     _id: {
+        type: String,
+        required: true,
+    },
+    googleId: {
         type: String,
         required: true,
     },
@@ -9,15 +13,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    password: {
-        type: String,
-        required: true,
-    },
     email: {
         type: String,
         required: true,
     },
+    
    
 })
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("UserGoogle", userGoogleSchema);

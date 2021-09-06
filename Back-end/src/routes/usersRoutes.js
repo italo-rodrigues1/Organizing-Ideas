@@ -17,7 +17,7 @@ routes.delete('/ideias/:id', ideiasMiddleware.getIdeias, ideiasController.delete
 
 routes.get('/login', userController.allUser);
 routes.post('/login', userController.createUser);
-routes.put('/login', userController.update);
-routes.delete('/login', userController.delete);
+routes.put('/login/:id', userController.update);
+routes.delete('/login/:id', userController.delete);
 
 module.exports = routes;
