@@ -6,13 +6,11 @@ import GoogleLogin from 'react-google-login';
 import { Link, useHistory} from "react-router-dom";
 
 
-export default function LayoutLogin() {
+export default function LayoutCadastro() {
 
-  // NO LOGIN SÓ FAÇO VERIFICAR SE O USUÁRIO ESTÁ EXISTE NO BANCO DE DADOS
-
-  const [idIdeias,setIdIdeias] = useState('');
   const [senha,setSenha] = useState('');
   const [email,setEmail] = useState('');
+  const [nome,setNome] = useState('');
   const [logout,setLogout] = useState(false);
   const history = useHistory();
   const [verificacaoGoogle,setVerificacaoGoogle] = useState([]);
@@ -24,25 +22,16 @@ export default function LayoutLogin() {
     .then((response) =>{
       
       setVerificacaoGoogle(response.data.userGoogle);
-      
+      setVerificacaoLogin(response.data.user);
     })
     .catch(err => console.log(err) )
-
-    
 
   }, []);
 
   console.log(verificacaoLogin)
 
   const handleSubmit = (e) => {
-    e.preventDefault();  
-    
-    api.post("/login",({email:email,password:senha}))
-    .then((response) =>{
-      setVerificacaoLogin(response);
-    })
-    .catch(err => console.log(err) )
-
+    e.preventDefault();
 
     if(!verificacaoLogin.includes(email) || verificacaoLogin.includes(senha) ) {
       history.push("/ideias");
@@ -55,14 +44,14 @@ export default function LayoutLogin() {
 
   }
 
-  const handleLoginGoogle =  (googleData) => {
+  const handleLogin =  (googleData) => {
 
     if(!verificacaoGoogle.includes(googleData.googleId) ) {
       history.push("/ideias");
       console.log("deu certo a verificação");
     }
     else{
-      api.post("/login/google",{name:googleData.profileObj.name ,email:googleData.profileObj.email,googleId: googleData.googleId})
+      api.post("/login",{name:googleData.profileObj.name ,email:googleData.profileObj.email,googleId: googleData.googleId})
       .then(response =>{
         setLogout(true);
         history.push("/ideias");
@@ -84,8 +73,14 @@ export default function LayoutLogin() {
       </ImgLeft>
       <ContainerForm>
         <Form OnSubmit={handleSubmit}>
-            <h1>Login</h1>
+            <h1>Cadastro</h1>
               <FormDiv>
+
+                  <label htmlFor=""> 
+                      <input type="text" onChange={(nome)=> setNome(nome.target.value)}  required/>
+                      <span>Digite seu Nome...</span>
+                  </label>
+                  
                   <label htmlFor=""> 
                       <input type="email" onChange={(email)=> setEmail(email.target.value)}  required/>
                       <span>Digite seu Email...</span>
@@ -95,17 +90,17 @@ export default function LayoutLogin() {
                       <input type="password" onChange={(senha)=> setSenha(senha.target.value)} required/>
                       <span>Digite sua Senha...</span>
                   </label>
-                  <span>Não tenho cadastro.<Link to="/registration">Click aqui!</Link></span>
+                  <span>Já tenho cadastro.<Link to="/">Click aqui!</Link></span>
 
-                  <GoogleLogin
+                  {/* <GoogleLogin
                   clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                   buttonText="Entre com a conta do Google"
-                  onSuccess={handleLoginGoogle}
-                  onFailure={handleLoginGoogle}
+                  onSuccess={handleLogin}
+                  onFailure={handleLogin}
                   cookiePolicy={'single_host_origin'}
-                  />
+                  /> */}
             </FormDiv>
-            <button type="submit">Entrar</button>
+            <button type="submit">Cadastrar</button>
           </Form>
       </ContainerForm>
     </Container>

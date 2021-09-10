@@ -1,11 +1,11 @@
 import React from 'react';
 import GlobalStyles from "../styles/GlobalStyles";
-import LayoutLogin from "../components/LayoutLogin";
+import LayoutCadastro from "../components/LayoutCadastro";
 
 function Cadastro() {
     return (
         <>  
-            <LayoutLogin/>
+            <LayoutCadastro/>
             <GlobalStyles/>
         </>
     )

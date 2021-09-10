@@ -2,17 +2,50 @@ import styled from "styled-components";
 
 
 export const Container = styled.div`
-   width: 50%;
-   height: 100%;
-   display: flex;
-   align-items: center;
-   justify-content: center;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-color: #262626;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+`;
 
+export const ContainerForm = styled.div`
+    display: flex;
+    height: 100%;
+    width: 50%;
+    background-color: #262626;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+
+    @media(max-width: 750px) {
+        width: 100%;
+        padding: 10px;
+    }
+`;
+
+export const ImgLeft = styled.div`
+
+    width: 50%;
+    height: 100%;
+    background: #ffcc33;
+    
+    img{
+        width: 100%;
+        height: 100%;
+       
+    }
+
+    @media(max-width: 750px) {
+        display: none;
+    }
 `;
 
 export const Form = styled.form`
     width: 400px; 
-    height: 400px;
+    height: 465px;
     border-radius: 10px;
     background: #fff;
     box-shadow: -4px 7px #6b6a6a5c;
@@ -45,7 +78,7 @@ export const Form = styled.form`
         border: none;
         cursor: pointer;
         font-size: 16px;
-        margin: 0 auto;
+        margin: 30px auto;
         box-shadow: 1px 4px #1111110d;
         background: #E3C005;
         

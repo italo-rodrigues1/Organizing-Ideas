@@ -32,7 +32,7 @@ export const Container = styled.header`
 
 `;
 
-export const AddVideoButton = styled.button`
+export const AddCardButton = styled.button`
 
     border: none;
     border-radius: 100%;

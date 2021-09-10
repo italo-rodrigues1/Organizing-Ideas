@@ -59,7 +59,7 @@ export default function IdeasList(){
                     {/* <IdeasItem /> */}
                 </IdeasListWrapper>
             )}
-                            
+            {/* <SocialItem />            */}
         </Container>
     );
 }

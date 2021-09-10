@@ -17,6 +17,39 @@ module.exports = {
   },
 
   async createUser(req, res) {
+    const { name,password,email } = req.body;
+
+    if ( !name || !password || !email) {
+      return res.status(400).json({ error: "Missing googleID,name or email." });
+    }
+
+  
+    const user= new User({
+      _id: uuid(),
+      name,
+      password,
+      email,
+    }) 
+    
+    // const user = new User({
+    //   _id: uuid(),
+    //   googleId,
+    //   name,
+    //   email,
+    // }) 
+
+
+    try {
+      await user.save();
+      // await user.save();
+
+      return res.status(201).json({ message: "User added succesfully!" });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  },
+
+  async createUserGoogle(req, res) {
     const { googleId,name,email } = req.body;
 
     if (!googleId || !name || !email) {
@@ -31,22 +64,15 @@ module.exports = {
       email,
     }) 
     
-    // const user = new User({
-    //   _id: uuid(),
-    //   googleId,
-    //   name,
-    //   email,
-    // }) 
-
-
+    
     try {
       await userGoogle.save();
-      // await user.save();
 
       return res.status(201).json({ message: "User added succesfully!" });
     } catch (err) {
       res.status(400).json({ error: err.message });
     }
+
   },
 
   async update(req, res) {
