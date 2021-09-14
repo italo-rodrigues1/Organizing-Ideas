@@ -1,47 +1,16 @@
 const jwt = require('jsonwebtoken');
-// const { promisify } = require('util');
-
-// async function validate(req, res, next) {
-//   const { authorization } = req.headers;
-
-//   if (!authorization) {
-//     return res.sendStatus(401);
-//   }
-
-//   const [, token] = authorization.split(' ');
-
-//   try {
-//     await promisify(jwt.verify)(token, 'PRIVATEKEY');
-
-//     return next();
-//   } catch (err) {
-//     return res.sendStatus(401);
-//   }
-// }
-
-// module.exports = validate;
-
 
 async function validate(req, res, next) {
-   
-    try{
-
-        const { email, password } = req.body;
-
-        const authenticateUser = new AunthenticateUserService();
-        
-        const { user, token } = await authenticateUser.execute({
-            email,
-            password,
-        });
-        
-
-        return res,json({ user, token });
-    }catch(err){
-        return res.status(400).json({ error: err.message });
-    }
-
-
-}
+  var token = req.headers['x-access-token'];
+  if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
   
-  module.exports = validate;
+  jwt.verify(token, function(err, decoded) {
+    if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+    
+    // se tudo estiver ok, salva no request para uso posterior
+    req.Id = decoded.id;
+    next();
+  });
+}
+
+module.exports = validate;

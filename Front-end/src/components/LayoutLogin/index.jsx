@@ -1,22 +1,21 @@
-import React,{useState,useEffect} from "react";
-import { Container,ImgLeft,Form,FormDiv,ContainerForm} from "./styles";
-import ImgMain from "../../img/undraw_Instant_information_re_c5v5 (1).svg";
+import React,{useState,useEffect,useContext} from "react";
+import { Container,ImgLeft,Form,FormDiv,ContainerForm,LogoLogin} from "./styles";
+// import ImgMain from "../../img/undraw_Instant_information_re_c5v5 (1).svg";
+import ImgMain from "../../img/72259-team.gif";
+import Logo from "../../img/Group 292 (1).svg";
 import api  from '../../services/api';
 import GoogleLogin from 'react-google-login';
 import { Link, useHistory} from "react-router-dom";
-
+import { AuthContext } from '../../context/userContext/AuthContext';
 
 export default function LayoutLogin() {
 
-  // NO LOGIN SÓ FAÇO VERIFICAR SE O USUÁRIO ESTÁ EXISTE NO BANCO DE DADOS
+  const { authenticated, handleLogin,setSenha,setEmail } = useContext(AuthContext);
 
-  const [idIdeias,setIdIdeias] = useState('');
-  const [senha,setSenha] = useState('');
-  const [email,setEmail] = useState('');
-  const [logout,setLogout] = useState(false);
+
+ 
   const history = useHistory();
   const [verificacaoGoogle,setVerificacaoGoogle] = useState([]);
-  const [verificacaoLogin,setVerificacaoLogin] = useState([]);
  
   useEffect(() => {
    
@@ -32,28 +31,8 @@ export default function LayoutLogin() {
 
   }, []);
 
-  console.log(verificacaoLogin)
+ 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();  
-    
-    api.post("/login",({email:email,password:senha}))
-    .then((response) =>{
-      setVerificacaoLogin(response);
-    })
-    .catch(err => console.log(err) )
-
-
-    if(!verificacaoLogin.includes(email) || verificacaoLogin.includes(senha) ) {
-      history.push("/ideias");
-      console.log("Usuario existe!!");
-    }
-    else{
-      alert("Usuario não existe.Reveja os dados preenchidos!!")
-      console.log("Usuario não existe");
-    }
-
-  }
 
   const handleLoginGoogle =  (googleData) => {
 
@@ -64,10 +43,10 @@ export default function LayoutLogin() {
     else{
       api.post("/login/google",{name:googleData.profileObj.name ,email:googleData.profileObj.email,googleId: googleData.googleId})
       .then(response =>{
-        setLogout(true);
+        
         history.push("/ideias");
       }).catch(err => {
-        setLogout(false);
+        
         alert("Usuário não cadastrado");
         console.log(err);
       })
@@ -79,11 +58,14 @@ export default function LayoutLogin() {
   return (
 
     <Container>
+      <LogoLogin>
+        <img src={Logo} alt="logo" />
+      </LogoLogin>
       <ImgLeft>
         <img src={ImgMain} alt="imagem do login" />
       </ImgLeft>
       <ContainerForm>
-        <Form OnSubmit={handleSubmit}>
+        <Form OnSubmit={handleLogin}>
             <h1>Login</h1>
               <FormDiv>
                   <label htmlFor=""> 

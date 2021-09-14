@@ -142,3 +142,23 @@ export const FormDiv = styled.div`
     }
 
 `;
+export const LogoLogin = styled.div`
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+    width: 70px;
+    
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+
+    /* @media(max-width: 750px) {
+        color: #ffff;
+    } */
+
+    
+`;
